@@ -1,6 +1,0 @@
-import './accounts.js'
-import './config.js'
-import './fixture.js'
-import '../../api/methods/methods.js'
-import '../../api/models/users/methods.js'
-import '../../api/models/users/publications.js'
