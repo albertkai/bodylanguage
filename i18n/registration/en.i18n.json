@@ -1,0 +1,27 @@
+{
+  "registration": {
+    "confirm": {
+      "oneMoment": "One moment!",
+      "text1": "We have just sent you the confirmation email",
+      "text2": "Please open a link in it and get back, we are waiting=)"
+    },
+    "start": {
+      "hello": "Hello!",
+      "text": "Welcome to the hottest new social project. Sexual revolution is here",
+      "rulesHeader": "Rules:",
+      "rules": {
+        "header1": "No faces",
+        "text1": "You can show only your bodies",
+        "header2": "No porno",
+        "text2": "Beautiful and sexy doesnt mean vulgar",
+        "header3": "Photos only from cam",
+        "text3": "The only way to upload a picture is using a cam"
+      },
+      "agree": "I agree"
+    },
+    "step2": {
+      "heading": "Now upload your photos",
+      "disc": "Remember, you can only upload photos directly from your cam"
+    }
+  }
+}

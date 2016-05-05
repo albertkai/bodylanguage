@@ -1,0 +1,36 @@
+#message-form{
+
+  width: 100vw;
+  height: 23vh;
+  padding: 2vh;
+  box-sizing: border-box;
+  background-image: url(/images/registration_bg.jpg);
+  -webkit-background-size: cover;
+  background-size: cover;
+  text-align: center;
+
+  h3{
+    font-size: 2.4vh;
+    margin: -0.5vh 0 1.5vh 0;
+  }
+
+  textarea{
+    width: 100%;
+    margin: 0;
+    text-align: justify;
+    padding: 2vw;
+    height: 15vh;
+    box-sizing: border-box;
+    resize: none;
+  }
+
+  .buttons{
+    button:nth-child(1){
+      float: left;
+    }
+    button:nth-child(2){
+      float: right;
+    }
+  }
+
+}

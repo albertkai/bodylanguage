@@ -1,0 +1,81 @@
+.fade-enter {
+  opacity: 0.01 !important;
+  transition: all 600ms ease-in !important;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1 !important;
+  transition: all 600ms ease-in !important;
+}
+
+.fade-leave {
+  opacity: 1 !important;
+  transition: all 600ms ease-in !important;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01 !important;
+  transition: all 600ms ease-in !important;
+}
+
+
+.slide-right-enter {
+  //@include translate(100%, 0);
+  //z-index: 10 !important;
+}
+
+.slide-right-enter.slide-right-enter-active {
+  //transition: all 800ms ease-in !important;
+  //@include translate(0, 0)
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-animation: moveFromRight .6s ease-in-out both;
+  animation: moveFromRight .6s ease-in-out both;
+  z-index: 10 !important;
+}
+
+.slide-right-leave {
+  opacity: 1 !important;
+  //@include translate(-100%, 0);
+  //transition: all 800ms ease-in !important;
+}
+
+.slide-right-leave.slide-right-leave-active {
+  //transition: all 800ms ease-in !important;
+  //@include translate(-200%, 0)
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+  -webkit-animation: moveToLeft .6s both ease-in;
+  animation: moveToLeft .6s both ease-in;
+}
+
+.slide-left-enter {
+  //@include translate(100%, 0);
+  //z-index: 10 !important;
+}
+
+.slide-left-enter.slide-left-enter-active {
+  //transition: all 800ms ease-in !important;
+  //@include translate(0, 0)
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-animation: moveFromLeft .6s ease-in-out both;
+  animation: moveFromLeft .6s ease-in-out both;
+  z-index: 10 !important;
+}
+
+.slide-left-leave {
+  opacity: 1 !important;
+  //@include translate(-100%, 0);
+  //transition: all 800ms ease-in !important;
+}
+
+.slide-left-leave.slide-left-leave-active {
+  //transition: all 800ms ease-in !important;
+  //@include translate(-200%, 0)
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+  -webkit-animation: moveToRight .6s ease-in both;
+  animation: moveToRight .6s ease-in both;
+
+}
