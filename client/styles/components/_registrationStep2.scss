@@ -1,0 +1,48 @@
+#registration-step-2{
+
+  padding-top: 2vh;
+  text-align: center;
+  
+  button.plus{
+
+    position: relative;
+    width: 65vw;
+    height: 65vw;
+    background: $accent-color;
+    border-radius: 50%;
+    margin: 6vh;
+
+    >div{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      @include translate(-50%, -50%);
+      background: rgba(255, 255, 255, .5);
+      &:nth-child(1){
+        width: 37vw;
+        height: 1px;
+      }
+      &:nth-child(2){
+        height: 37vw;
+        width: 1px;
+      }
+    }
+    
+  }
+
+  p{
+    font-size: 2vh;
+    padding: 0 5vw;
+    letter-spacing: .4em;
+    text-align: center;
+  }
+
+  .photo-edit-cont{
+    position: absolute;
+    width: 100%;
+    height: 88vh;
+    top: 0;
+    left: 0;
+  }
+  
+}

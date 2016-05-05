@@ -1,0 +1,69 @@
+#left-menu{
+
+  @extend .padding-x;
+  @extend .padding-y;
+
+  height: 100vh;
+  width: 70vw;
+  background-image: url(/images/registration_bg.jpg);
+  -webkit-background-size: cover;
+  background-size: cover;
+  box-sizing: border-box;
+
+  .logo{
+
+    width: 30vw;
+    height: 30vw;
+    margin: 18vw auto;
+    opacity: .7;
+    background-image: url(/images/logo_dark.png);
+    -webkit-background-size: contain;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+  }
+
+  nav{
+
+    position: absolute;
+    bottom: 10vh;
+
+    a{
+      display: block;
+      font-size: 4.5vw;
+      letter-spacing: .4em;
+      margin-bottom: 7vw;
+      font-weight: 100;
+      >span:nth-child(1){
+        position: relative;
+        left: -2vw;
+      }
+      >span:nth-child(2){
+        >span:nth-child(1){
+          color: $gray;
+        }
+        >span:nth-child(2){
+          color: $primary-color;
+        }
+      }
+      &:nth-child(1) span i{
+        color: $secondary-color;
+      }
+      &:nth-child(2) span i{
+        color: $primary-color;
+      }
+      &:nth-child(3) span i{
+        color: $accent-color;
+      }
+      &:nth-child(4) span i{
+        color: $secondary-color;
+      }
+      &:nth-child(5) span i{
+        color: $primary-color;  
+      }
+    }
+
+  }
+
+}

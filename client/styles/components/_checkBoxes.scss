@@ -1,0 +1,65 @@
+.checkboxes{
+
+  @include flexbox;
+  @include flex-wrap(wrap);
+
+  .item{
+    @include flexbox;
+    @include flex-wrap(wrap);
+    @include align-items(center);
+    width: 40vw;
+    margin-bottom: $base-padding;
+    &._selected{
+      >div{
+        >div{
+          opacity: 1;
+        }
+      }
+    }
+    >div{
+      position: relative;
+      width: 6vh;
+      height: 6vh;
+      //box-sizing: border-box;
+      border-radius: 50%;
+      border: 1px solid $primary-color;
+      >div{
+        position: absolute;
+        top: 1.2vh;
+        left: 1.2vh;
+        width: 3.6vh;
+        height: 3.6vh;
+        box-sizing: border-box;
+        border-radius: 50%;
+        background: $primary-color;
+        opacity: 0;
+        @include transition(all .4s ease);
+      }
+    }
+    p{
+      margin: 0;
+      margin-left: 2vw;
+    }
+  }
+  &.vertical{
+    @include flex-direction(column);
+    .item{
+      width: 100%;
+      margin-bottom: 3vh;
+      >div{
+        width: 4vh;
+        height: 4vh;
+        >div{
+          width: 2.6vh;
+          height: 2.6vh;
+          top: .7vh;
+          left: .7vh;
+        }
+      }
+    }
+  }
+  &.horizontal{
+    @extend .padding-x;
+    @extend .padding-y;
+  }
+}

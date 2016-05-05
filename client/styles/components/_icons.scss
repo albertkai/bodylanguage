@@ -1,0 +1,39 @@
+i.icons{
+  display: inline-block;
+  -webkit-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
+  &.sex{
+    background-image: url(/images/icons/sex.svg);
+  }
+  &.relationships{
+    background-image: url(/images/icons/relationships.svg);
+  }
+  &.watchup{
+    background-image: url(/images/icons/watchup.svg);
+  }
+  &.communication{
+    background-image: url(/images/icons/communication.svg);
+  }
+  &.envelope{
+    background-image: url(/images/icons/envelope.svg);
+  }
+  &.heart{
+    background-image: url(/images/icons/heart.svg);
+  }
+  &.left{
+    background-image: url(/images/icons/left.svg);
+  }
+  &.right{
+    background-image: url(/images/icons/right.svg);
+  }
+  &.male{
+    background-image: url(/images/icons/man.svg);
+  }
+  &.female{
+    background-image: url(/images/icons/woman.svg);
+  }
+  &.maleFemale{
+    background-image: url(/images/icons/manwoman.svg);
+  }
+}
