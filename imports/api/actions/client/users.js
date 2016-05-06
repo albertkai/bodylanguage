@@ -1,7 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
+import { browserHistory } from 'react-router'
 import { sendVerificationLink } from '../../methods/methods.js'
-import { regMove, stepOneSave, regFinish, likeUserMethod } from '../../models/users/methods.js'
+import { regMove, stepOneSave, regFinish, likeUserMethod, updateSettingsFieldMethod } from '../../models/users/methods.js'
 
 export const registerUser = (email, password)=> {
 
@@ -72,6 +73,7 @@ export const login = (email, password)=> {
             console.log(err)
         } else {
             console.log('Logged in')
+            browserHistory.push('/')
         }
     })
 
@@ -93,5 +95,15 @@ export const likeUser = (id)=> {
 export const openMessage = (id)=> {
 
     console.log('Sending message to ' + id)
+
+}
+
+export const updateSettingsField = (fieldName, value)=> {
+
+    console.log('Updating settings field')
+
+    updateSettingsFieldMethod.call({fieldName, value}, (err)=>{
+        err ? console.log(err) : console.log('Settings field saved')
+    })
 
 }

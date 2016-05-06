@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
 
 // Layouts
 import AppLayout from '../../ui/layouts/AppLayout.jsx';
@@ -22,6 +22,7 @@ import Settings from '../../ui/pages/Settings.jsx';
 export const renderRoutes = () => (
     <Router history={browserHistory}>
         <Route path="/" component={AppLayout}>
+            <IndexRedirect to="/app/list-users" />
             <Route path="login" component={Login}></Route>
             <Route path="verify-email/:token" component={RegistrationVerifyEmail}></Route>
             <Route path="registration" component={RegistrationLayout}>
@@ -31,7 +32,7 @@ export const renderRoutes = () => (
                 <Route path="confirm" component={RegistrationConfirm}></Route>
             </Route>
             <Route path="app" component={MainLayout}>
-                <Route path="user/:id" component={ListUsers}></Route>
+                <Route path="list-users" component={ListUsers}></Route>
                 <Route path="my-photos" component={MyPhotos}></Route>
                 <Route path="likes" component={Likes}></Route>
                 <Route path="messages" component={Messages}></Route>

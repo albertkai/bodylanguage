@@ -1,5 +1,6 @@
 import React from 'react'
 import i18n from 'meteor/universe:i18n'
+import { updateSettingsField } from '../../api/actions/client/users.js'
 
 export default class extends React.Component {
 
@@ -9,6 +10,16 @@ export default class extends React.Component {
 
     click(e) {
         $(e.currentTarget).toggleClass('_selected')
+        if (this.props.autosave) {
+            const hereFor = (()=>{
+                let res = {}
+                $('#' + this.props.id).find('.item').each(function(){
+                    res[$(this).data('field')] = $(this).hasClass('_selected')
+                })
+                return res;
+            })()
+            updateSettingsField(this.props.fieldName, hereFor)
+        }
     }
 
     componentDidMount() {
@@ -23,6 +34,7 @@ export default class extends React.Component {
             return (
                 <div
                     className='item'
+                    ref="checkbox"
                     data-field={item.field} key={item.field}
                     onClick={this.click.bind(this)}
                     >

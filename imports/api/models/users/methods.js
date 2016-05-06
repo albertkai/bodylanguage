@@ -61,3 +61,15 @@ export const likeUserMethod = new ValidatedMethod({
         console.log('Like user with id: ' + id)
     }
 })
+
+export const updateSettingsFieldMethod = new ValidatedMethod({
+    name: 'users.updateSettingsField',
+    validate: null,
+    run({fieldName, value}) {
+        console.log('Updating setitngs field')
+        console.log('Expanding radius')
+        Meteor.users.update(this.userId, {$set: {
+            ["profile.settings." + fieldName]: value
+        }})
+    }
+})

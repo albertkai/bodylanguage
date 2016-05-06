@@ -14,7 +14,7 @@ export default class extends React.Component {
             <div id="left-menu">
                 <div className="logo"></div>
                 <nav>
-                    <Link to="/app/user/isf">
+                    <Link to="/app/list-users">
                         <span><i className="ton-li-map-pin-1"></i></span>
                         <span><T>menu.radar</T></span>
                     </Link>

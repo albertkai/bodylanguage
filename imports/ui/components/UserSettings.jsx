@@ -1,35 +1,8 @@
 import React from 'react';
 import CheckBoxes from '../particles/CheckBoxes.jsx'
+import Radio from '../particles/Radio.jsx'
 import i18n from 'meteor/universe:i18n'
 import { createContainer } from 'meteor/react-meteor-data'
-
-class Radio extends React.Component {
-
-    constructor(props){
-        super(props);
-    }
-
-    componentDidMount() {
-        $(this.refs[this.props.selectedField]).addClass('_active')
-    }
-
-    onClick(e) {
-        const $target = $(e.currentTarget)
-        $target.addClass('_active').siblings().removeClass('_active')
-    }
-
-    render() {
-        const items = this.props.items.map((item)=>{
-            return (
-                <div className="item" ref={item.field} onClick={this.onClick.bind(this)} key={item.field} data-field={item.field}><i className={'icons ' + item.field}></i></div>
-            )
-        })
-
-        return (
-            <div id={this.props.id} className="radio">{items}</div>
-        )
-    }
-}
 
 export default class extends React.Component {
 
@@ -63,11 +36,11 @@ export default class extends React.Component {
                 return (
                     <div id="user-settings">
                         <h4><T>userSettings.me</T>:</h4>
-                        <Radio id="iam-radio" items={iamItems} selectedField={iam}/>
+                        <Radio id="iam-radio" items={iamItems} fieldName="iam" selectedField={iam} autosave={this.props.autosave}/>
                         <h4><T>userSettings.interested</T>:</h4>
-                        <Radio id="interested-radio" items={interestedItems} selectedField={interested}/>
+                        <Radio id="interested-radio" fieldName="interested" items={interestedItems} autosave={this.props.autosave} selectedField={interested}/>
                         <h4><T>userSettings.hereFor</T>:</h4>
-                        <CheckBoxes id="here-for-checkboxes" type="horizontal" items={hereFor}/>
+                        <CheckBoxes id="here-for-checkboxes" fieldName="hereFor" type="horizontal" items={hereFor} autosave={this.props.autosave}/>
                     </div>
                 )
             } else {

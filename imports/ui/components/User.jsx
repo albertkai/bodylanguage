@@ -15,8 +15,16 @@ export default class extends React.Component {
         this.swipeOffset = 0   // Swipe offset on touchstart
         this.controlsTimeout = null  // Holds the timeout to show user controls
         this.touchStartTime = 0
+        this.controlsCenter = {x:0, y:0} // Holds touch coords at the moment controls were shown
         this.settings = {
-            controlsTimeout: 300
+            controlsTimeout: 300,
+            controlsActionOffset: 50,   // Minimum swipe offset from the center for controls to trigger action
+            actions: {
+                left: 'left',
+                right: 'right',
+                up: 'like',
+                down: 'message'
+            }
         }
         this.state = {
             currentPic: 0,
@@ -150,6 +158,10 @@ export default class extends React.Component {
         console.log('Showing controls')
         e.stopPropagation()
         this.controlsOpened = true
+        this.controlsCenter = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        }
         this._setControlsBox(e.touches[0].clientX, e.touches[0].clientY)
         $(this.refs.controlsCont).addClass('_visible')
         $(this.refs.carousel).removeClass('_no-transition')
@@ -249,67 +261,36 @@ export default class extends React.Component {
 
     _getActionName(x, y) {
 
-        // First save elements + action names in an array.
-        // Then map through this array and get sizes, save result in coords array
-        // Then find and element in coords array, where x and y coords from the touchend
-        // fit the sizes. Return action name.
+        // Returns appropriate action name on touchend, or null, if no action should be triggered
 
-        let elements, coords, action;
+        // Calc offsets first
+        const offsetX = x - this.controlsCenter.x
+        const offsetY = y - this.controlsCenter.y
 
-        const $box = $(this.refs.controlsCont)
-        const boxLeft = $box.offset().left
-        const boxTop = $box.offset().top
-        const boxWidth = $box.width()
+        // Then check if an action should be triggered
+        if (Math.abs(offsetX) > this.settings.controlsActionOffset || Math.abs(offsetY) > this.settings.controlsActionOffset) {
 
-        elements = [
-            {
-                name: 'message',
-                node: $(this.refs.message)
-            },
-            {
-                name: 'like',
-                node: $(this.refs.like)
-            },
-            {
-                name: 'left',
-                node: $(this.refs.left)
-            },
-            {
-                name: 'right',
-                node: $(this.refs.right)
+            // Then find an axis
+            if (Math.abs(offsetX) > Math.abs(offsetY)) {
+                // X axis found. Next find the direction and return action name from the settings object
+                if (offsetX > 0) {
+                    return this.settings.actions.right
+                } else {
+                    return this.settings.actions.left
+                }
+            } else {
+                // Y axis fround. The same
+                if (offsetY > 0) {
+                    return this.settings.actions.down
+                } else {
+                    return this.settings.actions.up
+                }
             }
-        ]
 
-        coords = elements.map((element)=>{
-
-            let elemWidth = parseInt(element.node.css('width'), 10)  // Using css method instead of .width(), because of a weird behavior. FIX IT!
-            let elemHeight = parseInt(element.node.css('height'), 10)
-            let elemLeft = element.node.offset().left
-            let elemTop = element.node.offset().top
-
-            let left = elemLeft + boxLeft
-            let top = elemTop + boxTop
-            let right = elemWidth + left
-            let bottom = elemHeight + top
-            return {
-                name: element.name,
-                x: [left, right],
-                y: [top, bottom]
-            }
-        })
-
-        console.log(coords)
-        console.log(x)
-        console.log(y)
-
-        action = coords.find((item)=>{
-            return item.x[0] < x && item.x[1] > x && item.y[0] < y && item.y[1] > y
-        })
-
-        if (action !== undefined) {
-            return action.name
         } else {
+
             return null
+
         }
 
     }

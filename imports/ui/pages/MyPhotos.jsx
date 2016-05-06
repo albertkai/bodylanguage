@@ -1,7 +1,8 @@
 import React from 'react'
 import PhotoEdit from '../components/PhotoEdit.jsx'
+import { createContainer } from 'meteor/react-meteor-data'
 
-export default class extends React.Component {
+class MyPhotos extends React.Component {
 
     constructor(props){
         super(props);
@@ -10,10 +11,20 @@ export default class extends React.Component {
     render() {
         return (
             <div id="my-photos" className="container">
-                <PhotoEdit photos={[{image: ''}, {image: ''}]}/>
+                <PhotoEdit photos={this.props.photos}/>
             </div>
         )
     }
 
 }
+
+export default createContainer(({params})=>{
+
+    const user = Meteor.user()
+    const photos = user? user.profile.pics : []
+    const isLoggingIn = Meteor.loggingIn()
+
+    return {photos, isLoggingIn}
+
+}, MyPhotos)
 

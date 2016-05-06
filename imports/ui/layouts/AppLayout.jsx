@@ -27,20 +27,22 @@ class AppLayout extends React.Component {
 
     redirectLogged() {
 
-        console.log('redirecting')
-        const currentUser = this.props.currentUser
-        if (currentUser !== null && currentUser !== undefined) {
-            if (currentUser.emails[0].verified) {
-                if (currentUser.profile.registration.isRegistered) {
-                    this.route('/app/user/irpt')
+        if (!this.props.isLoggingIn) {
+            console.log('redirecting')
+            const currentUser = this.props.currentUser
+            if (currentUser !== null && currentUser !== undefined) {
+                if (currentUser.emails[0].verified) {
+                    if (currentUser.profile.registration.isRegistered) {
+                        console.log('No redirect')
+                    } else {
+                        this.route('/registration/' + currentUser.profile.registration.step)
+                    }
                 } else {
-                    this.route('/registration/' + currentUser.profile.registration.step)
+                    this.route('/registration/confirm')
                 }
             } else {
-                this.route('/registration/confirm')
+                this.route('/login')
             }
-        } else {
-            this.route('/login')
         }
 
     }

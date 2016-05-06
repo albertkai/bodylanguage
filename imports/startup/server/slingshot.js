@@ -1,7 +1,7 @@
-import Slingshot from 'meteor/edgee:slingshot'
-import Random from 'meteor/random'
+import { Slingshot } from 'meteor/edgee:slingshot'
+import { Random } from 'meteor/random'
 
-Slingshot.Slingshot.createDirective("imageUploads", Slingshot.Slingshot.S3Storage, {
+Slingshot.createDirective("imageUploads", Slingshot.S3Storage, {
     bucket: "bodylanguage.storage",
     region: "eu-central-1",
     acl: "public-read",
@@ -13,6 +13,6 @@ Slingshot.Slingshot.createDirective("imageUploads", Slingshot.Slingshot.S3Storag
         return true
     },
     key() {
-        return 'images/' + Random.Random.id() + '.jpg'
+        return 'images/' + Random.id() + '.jpg'
     }
 })
