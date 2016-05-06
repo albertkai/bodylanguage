@@ -1,0 +1,14 @@
+{
+  "common": {
+    "further": "Further",
+    "ready": "Ready",
+    "logout": "Log out",
+    "login": "Log in",
+    "enter": "Enter",
+    "registration": "Registration",
+    "close": "Close",
+    "yourEmail": "Your email",
+    "yourPass": "Your pass",
+    "repeatPass": "Repeat pass"
+  }
+}

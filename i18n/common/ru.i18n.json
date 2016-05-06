@@ -1,0 +1,14 @@
+{
+  "common": {
+    "further": "Далее",
+    "ready": "Готово",
+    "logout": "Выйти",
+    "login": "Войти",
+    "enter": "Войти",
+    "registration": "Регистрация",
+    "close": "Закрыть",
+    "yourEmail": "Ваш email",
+    "yourPass": "Ваш пароль",
+    "repeatPass": "Повторите пароль"
+  }
+}

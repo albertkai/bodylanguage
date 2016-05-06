@@ -1,0 +1,97 @@
+#right-filter{
+
+  height: 100vh;
+  width: 70vw;
+  background-color: $gray-darker;
+  -webkit-background-size: cover;
+  background-size: cover;
+  box-sizing: border-box;
+  text-align: center;
+  @extend .padding-x;
+
+  .logo{
+
+    display: inline-block;
+    margin: 3vh auto;
+    width: 14vh;
+
+    span{
+
+      display: block;
+      text-align: justify;
+      color: white;
+      font-size: 5vh;
+      font-weight: 500;
+
+      &:nth-child(1){
+        span{
+          letter-spacing: 3vh;
+          margin-bottom: 1.4vh;
+        }
+      }
+
+      &:nth-child(2){
+        letter-spacing: 2vh;
+        span{
+          letter-spacing: 2vh;
+        }
+      }
+
+    }
+
+  }
+
+  .checkboxes{
+
+    margin-top: 10vh;
+
+    .item{
+      >p{
+        color: white;
+        text-transform: capitalize;
+        font-weight: 100;
+        letter-spacing: .3em;
+        font-size: 2vh;
+        margin-left: 2vh;
+      }
+    }
+
+    .item:nth-child(1){
+      >div{
+        border-color: $sex-color;
+        >div{
+          background-color: $sex-color;
+        }
+      }
+    }
+
+    .item:nth-child(2){
+      >div{
+        border-color: $relationships-color;
+        >div{
+          background-color: $relationships-color;
+        }
+      }
+    }
+
+    .item:nth-child(3){
+      >div{
+        border-color: $watchup-color;
+        >div{
+          background-color: $watchup-color;
+        }
+      }
+    }
+
+    .item:nth-child(4){
+      >div{
+        border-color: $communication-color;
+        >div{
+          background-color: $communication-color;
+        }
+      }
+    }
+
+  }
+  
+}

@@ -1,0 +1,39 @@
+#likes{
+
+  .user-wrap{
+    position: relative;
+    height: 90vh;
+  }
+
+  .filter{
+    height: 10vh;
+    .button-group{
+      @include flexbox;
+      width: 94vw;
+      height: 8vh;
+      margin: 1vh 3vw;
+      button{
+        border: 1px solid $primary-color;
+        color: $primary-color;
+        @include flex-grow(1);
+        font-size: 2vh;
+        font-weight: 100;
+        letter-spacing: .2em;
+        &._active{
+          color: white;
+          background-color: $primary-color;
+        }
+        &:nth-child(1), &:nth-child(2){
+          border-right: 0;
+        }
+        &:nth-child(1){
+          border-radius: 50px 0 0 50px;
+        }
+        &:nth-child(3){
+          border-radius: 0 50px 50px 0;
+        }
+      }
+    }
+  }
+
+}
