@@ -28,11 +28,11 @@
   animation-iteration-count: infinite;
 }
 @-webkit-keyframes moveToLeft {
-  from { }
-  to { -webkit-transform: translateX(-100%);  opacity: .2;}
+  from { opacity: 1; }
+  to { -webkit-transform: translateX(-100%);  -webkit-opacity: .2;}
 }
 @keyframes moveToLeft {
-  from { }
+  from { opacity: 1; }
   to { -webkit-transform: translateX(-100%); transform: translateX(-100%);  opacity: .2;}
 }
 
@@ -46,7 +46,7 @@
 
 @-webkit-keyframes moveToRight {
   from { }
-  to { -webkit-transform: translateX(100%); opacity: .2;}
+  to { -webkit-transform: translateX(100%); -webkit-opacity: .2;}
 }
 @keyframes moveToRight {
   from { }

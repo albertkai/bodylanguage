@@ -47,7 +47,7 @@
           width: 14vh;
           height: 14vh;
           margin: 2.2vh 1.1vh;
-          background-color: rgba($primary-color, .8);
+          background-color: rgba($primary-color, .65);
           border-radius: 50%;
 
           &.remove{
@@ -83,20 +83,23 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+    text-align: center;
 
     li{
 
-      width: 33.3vw;
-      height: 33.3vw;
-      float: left;
-      opacity: .5;
+      width: 30vw;
+      height: 30vw;
+      margin: 1.65vw;
+      display: inline-block;
+      opacity: .3;
       -webkit-background-size: cover;
       background-size: cover;
       background-position: center;
-      @include transition(opacity .4s ease);
+      border-radius: 50%;
+      @include transition(all .4s ease);
 
       &._active{
-        opacity: .8;
+        opacity: .65;
         box-shadow: 0 0 10px rgba(0, 0, 0, .5);
       }
 

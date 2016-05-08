@@ -5,10 +5,25 @@
 
   height: 100vh;
   width: 70vw;
-  background-image: url(/images/registration_bg.jpg);
   -webkit-background-size: cover;
   background-size: cover;
   box-sizing: border-box;
+
+  &:before{
+
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .2;
+    background-image: url(/images/bg_trans.png);
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+  }
 
   .logo{
 
@@ -16,7 +31,7 @@
     height: 30vw;
     margin: 18vw auto;
     opacity: .7;
-    background-image: url(/images/logo_dark.png);
+    background-image: url(/images/logo_light.png);
     -webkit-background-size: contain;
     background-size: contain;
     background-position: center;
@@ -27,7 +42,7 @@
   nav{
 
     position: absolute;
-    bottom: 4vh;
+    bottom: 5vh;
 
     a{
       display: block;
@@ -41,7 +56,7 @@
       }
       >span:nth-child(2){
         >span:nth-child(1){
-          color: $gray;
+          color: white;
         }
         >span:nth-child(2){
           color: $primary-color;

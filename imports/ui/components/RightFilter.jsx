@@ -22,6 +22,7 @@ class RightFilter extends React.Component {
     }
 
     _setInitialState() {
+        // Separate function to populate reactive initial state for additional control
         if (!this.initialStateSet) {
             if (!this.context.isLoggingIn) {
                 const value = Math.round(this.context.currentUser.profile.settings.radius)
@@ -42,8 +43,7 @@ class RightFilter extends React.Component {
     }
 
     valueToRadius(val) {
-        this.radiusToValue(val * val * val + 500)
-        return val * val * val + 500
+        return Math.pow(val, 3) + 500
     }
 
     radiusToValue(radius) {
@@ -77,14 +77,14 @@ class RightFilter extends React.Component {
                         items={searchFor}
                         autosave={true}
                         />
-                    <h4>Радиус</h4>
+                    <h2>{(this.state.value / 1000).toFixed(1)}км</h2>
                     <Slider
                         onChange={this.handleChange.bind(this)}
                         onAfterChange={this.saveValue.bind(this)}
                         defaultValue={defaultValue}
                         tipFormatter={null}
                         />
-                    <h2>{(this.state.value / 1000).toFixed(1)}км</h2>
+                    <h4>Радиус</h4>
                 </div>
             )
 

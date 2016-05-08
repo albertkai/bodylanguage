@@ -10,7 +10,7 @@ export default class extends React.Component {
     // !! To complicated component. Need to separate carousel, controls and a container to a separate components.
     // A component for the main apps interactions, responsible for swiping user pics and pinterest-like user interaction (like, message, change)
     // UX features: fullscreen user photos carousel is changed by a swipe gesture. If you tap and hold for some time, the controls gets opened,
-    // then a user moves a finger to a needed action icon (it scales in response), and on touch end an action gets performed.
+    // then a user moves a finger to a needed action icon (it scales in response), and on touchend an action gets performed.
 
     constructor(props) {
 
@@ -24,8 +24,8 @@ export default class extends React.Component {
         this.controlsCenter = {x:0, y:0} // Holds touch coords at the moment controls were shown
         this.settings = {
             sliderStep: 102,     // In 'vw'. The step for a pics slider. A bit extended to avoid a 'vw' rendering bug
-            controlsTimeout: 300,
-            controlsActionOffset: 50,   // Minimum swipe offset from the center for controls to trigger action
+            controlsTimeout: 200,
+            controlsActionOffset: 30,   // Minimum swipe offset from the center for controls to trigger action
             actions: {                  // Map swipe directions to action names (components methods)
                 left: 'left',
                 right: 'right',
@@ -35,7 +35,7 @@ export default class extends React.Component {
         }
         this.state = {
             currentPic: 0,
-            photosContLeft: -1,
+            photosContLeft: 0,
             buttonCSSProp0: this.initialCSSProp,
             buttonCSSProp1: this.initialCSSProp,
             buttonCSSProp2: this.initialCSSProp,
@@ -163,8 +163,8 @@ export default class extends React.Component {
         const windowWidth = $(window).width()
         x = (x / windowWidth) * 100    // Converting 'px' to 'vw'
         let left = (this.state.currentPic * this.settings.sliderStep * -1) - (this.swipeOffset - x)
-        if (left > -1) {
-            left = -1
+        if (left > 0) {
+            left = 0
         } else if (left < this.settings.sliderStep * (this.photosLength - 1) * -1) {
             left = this.settings.sliderStep * (this.photosLength - 1) * -1
         }
@@ -190,7 +190,7 @@ export default class extends React.Component {
             $(this.refs.controls).addClass('_no-transition')
         }, 400)
         this.canCalculateButtonSizes = true
-        this._resizeOnMove(e.touches[0].clientX, e.touches[0].clientY)
+        //this._resizeOnMove(e.touches[0].clientX, e.touches[0].clientY)
         const intervalsArray = (()=>{
             let arr = [];
             for (let i=0; i < 15; i++) {
@@ -269,13 +269,13 @@ export default class extends React.Component {
             const elements = [
                 {
                     type: 'top',
-                    $node: $(this.refs.message)
+                    $node: $(this.refs.like)
                 },{
                     type: 'right',
                     $node: $(this.refs.right)
                 },{
                     type: 'bottom',
-                    $node: $(this.refs.like)
+                    $node: $(this.refs.message)
                 },{
                     type: 'left',
                     $node: $(this.refs.left)
@@ -387,6 +387,7 @@ export default class extends React.Component {
                     onTouchMove={this.touchMove.bind(this)}
                     onTouchEnd={this.touchEnd.bind(this)}
                     >
+                    <div className="bg"></div>
                     <div className="carousel" ref="carousel" style={{transform: `translate3d(${this.state.photosContLeft}vw, 0, 0)`, WebkitTransform: `translate3d(${this.state.photosContLeft}vw, 0, 0)`}}>
                         {photos}
                     </div>
@@ -406,9 +407,9 @@ export default class extends React.Component {
 
                     <div className="user-controls" ref="controls">
 
-                        <button className="write-message" ref="message"><i className="icons envelope"  style={{transform: `scale(${this.state.buttonCSSProp0})`, WebkitTransform: `scale(${this.state.buttonCSSProp0})`}}></i></button>
+                        <button className="like-user" ref="like"><i className="icons heart"  style={{transform: `scale(${this.state.buttonCSSProp0})`, WebkitTransform: `scale(${this.state.buttonCSSProp0})`}}></i></button>
                         { this.props.gotRight ? (<button className="move-right" ref="right"><i className="icons right" style={{transform: `scale(${this.state.buttonCSSProp1})`, WebkitTransform: `scale(${this.state.buttonCSSProp1})`}}></i></button>) : null}
-                        <button className="like-user" ref="like"><i className="icons heart" style={{transform: `scale(${this.state.buttonCSSProp2})`, WebkitTransform: `scale(${this.state.buttonCSSProp2})`}}></i></button>
+                        <button className="write-message" ref="message"><i className="icons envelope" style={{transform: `scale(${this.state.buttonCSSProp2})`, WebkitTransform: `scale(${this.state.buttonCSSProp2})`}}></i></button>
                         { this.props.gotLeft ? (<button className="move-left" ref="left"><i className="icons left" style={{transform: `scale(${this.state.buttonCSSProp3})`, WebkitTransform: `scale(${this.state.buttonCSSProp3})`}}></i></button>) : null}
                         <div className="glow"></div>
 

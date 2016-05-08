@@ -441,7 +441,16 @@
   background-image:     -ms-linear-gradient(top, $startColor, $endColor);
   background-image:      -o-linear-gradient(top, $startColor, $endColor);
   background-image:         linear-gradient(top, $startColor, $endColor);
-  filter:            progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}');
+}
+
+@mixin background-gradient-top($startColor: #3C3C3C, $endColor: #999999) {
+  background-color: $startColor;
+  background-image: -webkit-gradient(linear, left bottom, left top, from($startColor), to($endColor));
+  background-image: -webkit-linear-gradient(bottom, $startColor, $endColor);
+  background-image:    -moz-linear-gradient(bottom, $startColor, $endColor);
+  background-image:     -ms-linear-gradient(bottom, $startColor, $endColor);
+  background-image:      -o-linear-gradient(bottom, $startColor, $endColor);
+  background-image:         linear-gradient(bottom, $startColor, $endColor);
 }
 
 

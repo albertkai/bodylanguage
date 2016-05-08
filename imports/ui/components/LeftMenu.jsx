@@ -22,7 +22,7 @@ export default class extends React.Component {
                         <span><i className="ton-li-heart"></i></span>
                         <span><T>menu.likes</T> (<span>3</span>)</span>
                     </Link>
-                    <Link to="app/messages">
+                    <Link to="/app/messages">
                         <span><i className="ton-li-mail-5"></i></span>
                         <span><T>menu.messages</T> (<span>3</span>)</span>
                     </Link>

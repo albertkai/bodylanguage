@@ -26,6 +26,16 @@
     overflow: hidden;
     -webkit-backface-visibility: hidden;
 
+    .bg{
+      position: absolute;
+      width: 100%;
+      height: 25vh;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      @include background-gradient-top(rgba(0, 0, 0, 0), rgba(0, 0, 0, .6));
+    }
+
     .carousel{
 
       position: relative;
@@ -57,6 +67,9 @@
         -webkit-background-size: cover;
         background-size: cover;
         @include transform(translateZ(0));
+        &:nth-child(1){
+          margin-left: -1vw;
+        }
       }
 
     }
@@ -72,15 +85,16 @@
     font-size: 4vh;
     color: white;
     backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
 
     .bg{
       position: absolute;
       width: 100%;
-      height: 130%;
+      height: 300%;
       left: 0;
       bottom: 0;
       z-index: 1;
-      @include background-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .4));
+      @include background-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .6));
     }
 
     .used-for{
@@ -89,10 +103,9 @@
       z-index: 2;
       color: $primary-color;
       i{
-        width: 4vh;
-        height: 4vh;
+        width: 4.5vh;
+        height: 4.5vh;
         margin-right: 4vh;
-        backface-visibility: hidden;
       }
     }
     .distance{
@@ -101,8 +114,8 @@
       z-index: 2;
       font-weight: 400;
       color: white;
+      font-size: 5vh;
       letter-spacing: .1em;
-      backface-visibility: hidden;
     }
   }
 
@@ -113,7 +126,7 @@
     left: 0;
     width: 100%;
     height: 1vh;
-    background: rgba(255, 255, 255, .2);
+    background: rgba(0, 0, 0, .2);
     div{
       position: absolute;
       left: 0;
@@ -146,7 +159,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      background-color: rgba(0, 0, 0, .2);
+      background-color: rgba(0, 0, 0, .5);
       opacity: 0;
       visibility: hidden;
       @include transition(all .4s ease);
@@ -162,7 +175,7 @@
       left: 40vw;
       opacity: 0;
       visibility: hidden;
-      @include transition(all .4s ease);
+      @include transition(opacity .4s ease);
 
       .glow{
         position: absolute;
@@ -187,31 +200,33 @@
         color: white;
         padding: 0;
         @include transition(all .2s cubic-bezier(0.655, 0.335, 0.420, 1.555));
-        @include transform(translate3d(-50%, -50%, 0) scale(0));
         opacity: 0;
-        top: 50%;
-        left: 50%;
 
-        &:hover{
-          display: none;
+        &.like-user {
+          top: 50%;
+          left: 50%;
+          @include transform(translate3d(-50%, -50%, 0) scale(.1));
+        }
+        &.move-right {
+          top: 50%;
+          right: 50%;
+          @include transform(translate(-50%, -50%) scale(.1));
+        }
+        &.write-message {
+          bottom: 50%;
+          left: 50%;
+          @include transform(translate3d(-50%, -50%, 0) scale(.1));
+        }
+        &.move-left {
+          top: 50%;
+          left: 50%;
+          @include transform(translate(-50%, -50%) scale(.1));
         }
 
         i{
           width: 7vw;
           height: 7vw;
           background-position: center center;
-        }
-
-        &.move-right{
-          @include transition-delay(0s);
-        }
-
-        &.like-user{
-          @include transition-delay(0s);
-        }
-
-        &.move-left{
-          @include transition-delay(0s);
         }
 
       }
@@ -254,30 +269,25 @@
           opacity: 1;
           @include transition(all .4s cubic-bezier(0.565, -0.550, 0.300, 0.615));
 
-          &.write-message {
+          &.like-user {
             top: 0;
             left: 50%;
-            @include transform(translate(-50%, 0) scale(1));
+            @include transform(translate3d(-50%, 0, 0) scale(1));
           }
           &.move-right {
             top: 50%;
-            left: auto;
             right: 0;
             @include transform(translate(0, -50%) scale(1));
-            @include transition-delay(.03s);
           }
-          &.like-user {
-            top: auto;
+          &.write-message {
             bottom: 0;
             left: 50%;
-            @include transform(translate(-50%, 0) scale(1));
-            @include transition-delay(.06s);
+            @include transform(translate3d(-50%, 0, 0) scale(1));
           }
           &.move-left {
             top: 50%;
             left: 0;
             @include transform(translate(0, -50%) scale(1));
-            @include transition-delay(.09s);
           }
         }
 

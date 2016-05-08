@@ -5,6 +5,7 @@ import '../imports/startup/client/index.js'
 import '../imports/startup/both/slingshot.js'
 
 Meteor.startup(() => {
+    console.log('startup')
     render(renderRoutes(), document.getElementById('app'));
 });
 

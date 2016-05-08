@@ -20,5 +20,5 @@ App.launchScreens({
     'iphone6': 'public/images/ios/Default-736h.png'
 });
 
-//App.setPreference('StatusBarOverlaysWebView', true);
-//App.setPreference('StatusBarStyle', 'lightcontent');
+App.setPreference('StatusBarOverlaysWebView', true);
+App.setPreference('StatusBarStyle', 'lightcontent');

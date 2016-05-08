@@ -14,20 +14,26 @@ export default class extends React.Component {
 
     move(index) {
         const cssLeft = $(window).width() * index * -1
-        this.setState({cssLeft})
+        this.setState({cssLeft, currentPic: index})
     }
 
     addPhoto() {
-        takePic()
+        takePic(()=>{
+            this.move(this.props.photos.length - 1)
+        })
     }
 
     removePhoto(photo) {
-        removePic(photo)
+        removePic(photo, ()=>{
+            if (this.state.currentPic > 0) {
+                this.move(this.state.currentPic - 1)
+            }
+        })
     }
 
     render() {
 
-        const currentPic = this.state.currentPic
+        let currentPic = this.state.currentPic
 
         let photos = this.props.photos.sort((p)=> p.order).map((photo, index)=>{
             let image = `url(https://dcl7m3594apmn.cloudfront.net/images/${photo.name})`
@@ -42,9 +48,10 @@ export default class extends React.Component {
 
         let previewItems = this.props.photos.sort((p)=> p.order).map((photo, index)=>{
             let image = `url(https://dcl7m3594apmn.cloudfront.net/images/${photo.name})`
-            const activeClass = index === currentPic ? '_active' : ''
+            let activeClass = index === currentPic ? '_active' : ''
+            console.log(currentPic + '  ->  ' +index + ': ' + activeClass)
             return (
-                <li className={activeClass} style={{backgroundImage: image}} key={index} onClick={this.move.bind(this, index)}></li>
+                <li className={index === currentPic ? '_active' : ''} style={{backgroundImage: image}} key={index} onClick={this.move.bind(this, index)}></li>
             )
         })
 

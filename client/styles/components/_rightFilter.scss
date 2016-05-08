@@ -44,7 +44,7 @@
   .logo{
 
     display: inline-block;
-    margin: 3vh auto;
+    margin: 9vh auto 0 auto;
     width: 14vh;
 
     span{
@@ -75,7 +75,8 @@
 
   .checkboxes{
 
-    margin-top: 10vh;
+    margin-top: 8vh;
+    margin-bottom: 3vh;
 
     .item{
       >p{

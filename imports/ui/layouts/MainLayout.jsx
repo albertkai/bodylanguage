@@ -58,11 +58,11 @@ export default class extends React.Component {
                             key: this.props.location.path,
                             store: this.props.store,
                             currentUser: this.props.currentUser,
-                            isLoggingIn: this.props.isLoggingIn
+                            isLoggingIn: this.props.isLoggingIn,
+                            openFilter: this.openFilter.bind(this)
                         })}
                     </ReactCSSTransitionGroup>
                     <button className="open-menu" onClick={this.openMenu.bind(this)}></button>
-                    <button className="open-filter" onClick={this.openFilter.bind(this)}><i className="ton-li-equalizer-3"></i></button>
                     <button className="close close-menu"></button>
                     <button className="close close-filter"></button>
                 </div>

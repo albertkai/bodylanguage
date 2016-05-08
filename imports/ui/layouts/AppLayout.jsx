@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data'
 import i18n from 'meteor/universe:i18n'
 import {browserHistory} from 'react-router'
 import store from '../../api/client/stores/store.js'
+import Spinner3d from '../particles/Spinner3d.jsx'
 
 class AppLayout extends React.Component {
 
@@ -78,14 +79,9 @@ class AppLayout extends React.Component {
                     currentUser: this.props.currentUser,
                     isLoggingIn: this.props.isLoggingIn
                 })}
-                <div id="main-loader" className={loaderClass}>
+                <div id="main-loader" className={loaderClass + ' center-content'}>
 
-                    <div className='loader2'>
-                        <div>
-                            <div>
-                            </div>
-                        </div>
-                    </div>
+                    <Spinner3d />
 
                 </div>
             </div>

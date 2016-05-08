@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import User from '../components/User.jsx'
+import Loading from '../components/Loading.jsx'
 import { Meteor } from 'meteor/meteor'
 import { createContainer } from 'meteor/react-meteor-data'
 import { distance, imagesCSSPreload } from '../../api/misc/utils.js'
@@ -71,8 +72,7 @@ class ListUsers extends React.Component {
     }
 
     render() {
-        console.log(this.props.isReady)
-        if (true) {
+        if (this.props.isReady) {
             console.log(this.props.users[this.state.currentUser + 1])
             const user = this.props.users[this.state.currentUser + 1]
             if (user !== undefined && user !== null) {
@@ -86,6 +86,7 @@ class ListUsers extends React.Component {
                 })
                 return (
                     <div id="user-page">
+                        <button className="open-filter" onClick={this.props.openFilter}><i className="ton-li-equalizer-3"></i></button>
                         <ReactCSSTransitionGroup
                             transitionName={`slide-${this.state.slideDir}`}
                             transitionEnterTimeout={600}
@@ -107,10 +108,10 @@ class ListUsers extends React.Component {
                     </div>
                 )
             } else {
-                return (<div>Нет пользователей</div>)
+                return (<Loading heading={'Никого нет'} text={'Загружаем данные'}/>)
             }
         } else {
-            return (<div>Загружаем</div>)
+            return (<Loading heading={'Подождите'} text={'Загружаем данные'}/>)
         }
     }
 
@@ -118,8 +119,8 @@ class ListUsers extends React.Component {
 
 export default createContainer(({params})=>{
 
-    console.log('params')
     console.log(params)
+    console.log('paerrarar')
     const usersAround = Meteor.subscribe('users.around')
     const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
     const isReady = usersAround.ready()
@@ -127,7 +128,6 @@ export default createContainer(({params})=>{
         users,
         isReady
     }
-
 
 }, ListUsers)
 
