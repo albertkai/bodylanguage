@@ -46,6 +46,7 @@ export const registrationFinish = ()=> {
             console.log('worked')
             console.log(err)
         } else {
+            browserHistory.push('/app/list-users')
             console.log('Registration finished')
         }
     })
@@ -75,6 +76,15 @@ export const login = (email, password)=> {
             console.log('Logged in')
             browserHistory.push('/')
         }
+    })
+
+}
+
+export const logout = ()=> {
+
+    Meteor.logout((err)=>{
+        if (err) console.log(err) 
+        else browserHistory.push('/login')
     })
 
 }

@@ -22,20 +22,16 @@ export default class extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.items.forEach((item)=>{
-            if (item.checked) $(`[data-field='${item.field}']`).addClass('_selected')
-        })
-    }
-
     render() {
         const T = i18n.createComponent(i18n.createTranslator('app'))
         const items = this.props.items.map((item)=>{
+            const className = item.checked ? 'item _selected' : 'item'
             return (
                 <div
-                    className='item'
+                    className={className}
                     ref="checkbox"
-                    data-field={item.field} key={item.field}
+                    data-field={item.field}
+                    key={item.field}
                     onClick={this.click.bind(this)}
                     >
                     <div>

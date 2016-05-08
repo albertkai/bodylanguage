@@ -17,12 +17,19 @@ Accounts.onCreateUser(function(options, user){
                 communication: false,
                 watchup: true
             },
+            searchFor: {
+                sex: true,
+                relationships: true,
+                communication: false,
+                watchup: true
+            },
             radius: 50000
         },
         pics: [],
         counts: {
             messages: 0,
-            likes: 0
+            likes: 0,
+            mutialLikes: 0
         }
     }
     return user

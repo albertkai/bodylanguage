@@ -7,7 +7,13 @@ function calculateDistance(elem, mouseX, mouseY) {
 
 export default class extends React.Component {
 
+    // !! To complicated component. Need to separate carousel, controls and a container to a separate components.
+    // A component for the main apps interactions, responsible for swiping user pics and pinterest-like user interaction (like, message, change)
+    // UX features: fullscreen user photos carousel is changed by a swipe gesture. If you tap and hold for some time, the controls gets opened,
+    // then a user moves a finger to a needed action icon (it scales in response), and on touch end an action gets performed.
+
     constructor(props) {
+
         super(props);
         this.initialCSSProp = 29
         this.photosLength = this.props.photos.length
@@ -17,9 +23,10 @@ export default class extends React.Component {
         this.touchStartTime = 0
         this.controlsCenter = {x:0, y:0} // Holds touch coords at the moment controls were shown
         this.settings = {
+            sliderStep: 102,     // In 'vw'. The step for a pics slider. A bit extended to avoid a 'vw' rendering bug
             controlsTimeout: 300,
             controlsActionOffset: 50,   // Minimum swipe offset from the center for controls to trigger action
-            actions: {
+            actions: {                  // Map swipe directions to action names (components methods)
                 left: 'left',
                 right: 'right',
                 up: 'like',
@@ -28,7 +35,7 @@ export default class extends React.Component {
         }
         this.state = {
             currentPic: 0,
-            photosContLeft: 0,
+            photosContLeft: -1,
             buttonCSSProp0: this.initialCSSProp,
             buttonCSSProp1: this.initialCSSProp,
             buttonCSSProp2: this.initialCSSProp,
@@ -38,16 +45,17 @@ export default class extends React.Component {
 
     touchStart(e) {
 
-        this.touchStartTime = Date.now()
+        // Touch start time is set to detect a fast swipe, to change a slide
+
         e.persist()
-        console.log(e)
+        this.touchStartTime = Date.now()
         if(e.stopPropagation) e.stopPropagation()
         if(e.preventDefault) e.preventDefault()
         e.cancelBubble=true
         e.returnValue=false
-        $(this.refs.carousel).addClass('_no-transition')
+        $(this.refs.carousel).addClass('_no-transition')      // Removing transition because js animation takes place
         $(this.refs.stripeHandle).addClass('_no-transition')
-        this.swipeOffset = e.touches[0].clientX
+        this.swipeOffset = e.touches[0].clientX / $(window).width() * 100  // Converting offset to 'vw'
         this.controlsTimeout = setTimeout(()=>{
             this.showControls(e)
         }, this.settings.controlsTimeout)
@@ -56,6 +64,11 @@ export default class extends React.Component {
 
     touchEnd(e) {
 
+        // First determine if controls are opened or not
+        // If true, then perform an action and set a carousel to its value before swipe start
+        // If false, then find out if a swipe was long enough to move a slide or not
+        // ! Mind that all the pixel values are converted to 'vw' (value / windowWidth * 100)
+
         e.persist()
         console.log(e)
         $(this.refs.carousel).removeClass('_no-transition')
@@ -63,15 +76,16 @@ export default class extends React.Component {
         if (this.controlsOpened) {
             this._controlsAction(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
             this.setState({
-                photosContLeft: this.state.currentPic * $(window).width() * -1
+                photosContLeft: this.state.currentPic * this.settings.sliderStep * -1
             })
             this.controlsOpened = false
         } else {
             console.log('Should move')
+            let windowWidth = $(window).width()
             if (Date.now() - this.touchStartTime > 200) {
-                if (Math.abs(e.changedTouches[0].clientX - this.swipeOffset) > $(window).width() / 2) {
+                if (Math.abs(e.changedTouches[0].clientX / windowWidth * 100 - this.swipeOffset) > this.settings.sliderStep / 2) {
                     console.log('touch fits')
-                    if (e.changedTouches[0].clientX - this.swipeOffset > 0) {
+                    if (e.changedTouches[0].clientX / windowWidth * 100 - this.swipeOffset > 0) {
                         this._move('left')
                     } else {
                         this._move('right')
@@ -80,7 +94,7 @@ export default class extends React.Component {
                     this._move('back')
                 }
             } else {
-                if (e.changedTouches[0].clientX - this.swipeOffset > 0) {
+                if (e.changedTouches[0].clientX / windowWidth * 100 - this.swipeOffset > -1) {
                     this._move('left')
                 } else {
                     this._move('right')
@@ -93,6 +107,11 @@ export default class extends React.Component {
     }
 
     touchMove(e) {
+
+        // A bit complex app-specific gesture handler
+        // If a move is a swipe, then animating photo slides to reflect swiping
+        // If a swiping has stopped and no touchend received (holding), then in some time (this.settings.controlsTimeout) the controls box is opened
+        // If the controls box is opened, then controls buttons are being animated, depending on touchmove event coords.
 
         e.persist()
         e.stopPropagation()
@@ -112,42 +131,42 @@ export default class extends React.Component {
 
     _move(dir){
 
-        console.log('move called')
-        console.log(this.state.currentPic)
+        // Slides change machinery. Working with state's 'currentPic' and 'photosContLeft' props.
+
         if (dir === 'left') {
-            console.log('left should be called')
+
             if (this.state.currentPic > 0) {
-                console.log('left called')
-                console.log('Slide is zero')
-                console.log((this.state.currentPic - 1) * $(window).width())
-                console.log((this.state.currentPic - 1))
-                this.setState({photosContLeft: (this.state.currentPic - 1) * $(window).width() * -1})
+                this.setState({photosContLeft: (this.state.currentPic - 1) * this.settings.sliderStep * -1})
                 this.setState({currentPic: this.state.currentPic - 1})
             }
+
         } else if (dir === 'right') {
-            console.log('right should be called')
+
             if (this.state.currentPic + 1 < this.photosLength) {
-                console.log('right called')
-                this.setState({photosContLeft: (this.state.currentPic + 1) * $(window).width() * -1})
+                this.setState({photosContLeft: (this.state.currentPic + 1) * this.settings.sliderStep * -1})
                 this.setState({currentPic: this.state.currentPic + 1})
-                console.log('right move worked')
-                console.log(this.state.currentPic)
-                console.log(this.state.photosContLeft)
-                console.log($(window).width())
             }
+
         } else if (dir === 'back') {
-            this.setState({photosContLeft: this.state.currentPic * $(window).width() * -1})
+
+            this.setState({photosContLeft: this.state.currentPic * this.settings.sliderStep * -1})
+
         }
 
     }
 
     _swipe(x) {
 
-        let left = (this.state.currentPic * $(window).width() * -1) - (this.swipeOffset - x)
-        if (left > 0) {
-            left = 0
-        } else if (left < $(window).width() * (this.photosLength - 1) * -1) {
-            left = $(window).width() * (this.photosLength - 1) * -1
+        // Animation on slides swipe.
+        // ! All values are converted to a 'vw'
+
+        const windowWidth = $(window).width()
+        x = (x / windowWidth) * 100    // Converting 'px' to 'vw'
+        let left = (this.state.currentPic * this.settings.sliderStep * -1) - (this.swipeOffset - x)
+        if (left > -1) {
+            left = -1
+        } else if (left < this.settings.sliderStep * (this.photosLength - 1) * -1) {
+            left = this.settings.sliderStep * (this.photosLength - 1) * -1
         }
         this.setState({photosContLeft: left})
 
@@ -166,13 +185,24 @@ export default class extends React.Component {
         $(this.refs.controlsCont).addClass('_visible')
         $(this.refs.carousel).removeClass('_no-transition')
         $(this.refs.stripeHandle).removeClass('_no-transition')
-        this.setState({photosContLeft: this.state.currentPic * $(window).width() * -1})
+        this.setState({photosContLeft: this.state.currentPic * this.settings.sliderStep * -1})
         setTimeout(()=>{
             $(this.refs.controls).addClass('_no-transition')
         }, 400)
-        setTimeout(()=>{
-            this._resizeOnMove(e.touches[0].clientX, e.touches[0].clientY)
-        }, 398)
+        this.canCalculateButtonSizes = true
+        this._resizeOnMove(e.touches[0].clientX, e.touches[0].clientY)
+        const intervalsArray = (()=>{
+            let arr = [];
+            for (let i=0; i < 15; i++) {
+                arr.push(i * 30)
+            }
+            return arr;
+        })()
+        intervalsArray.forEach((int)=>{
+            setTimeout(()=>{
+                this._resizeOnMove(e.touches[0].clientX, e.touches[0].clientY)
+            }, int)
+        })
 
     }
 
@@ -194,6 +224,8 @@ export default class extends React.Component {
 
     _setControlsBox(x, y) {
 
+        // Setting a dynamic control box size, in order to avoid a situation, when controls buttons are off the screen
+
         const side = 300
         const deviceWidth = $(window).width()
         const width = (()=> {
@@ -214,13 +246,13 @@ export default class extends React.Component {
         this.boxLeft = left
         this.boxTop = top
 
-        this.canCalculateButtonSizes = true
-
         $(this.refs.controls).css('width', width + 'px').css('height', height + 'px').css('top', top + 'px').css('left', left + 'px')
 
     }
 
     _controlsAction(x, y) {
+
+        // Simply call an appropriate component method by its name
 
         console.log('Calling action')
         const action = this._getActionName(x, y)
@@ -229,6 +261,8 @@ export default class extends React.Component {
     }
 
     _resizeOnMove(x, y) {
+
+        // Resizes control buttons, depending on how close a button is to a touch coords
 
         if (this.canCalculateButtonSizes) {
             const initialFontSize = 14;
@@ -328,7 +362,7 @@ export default class extends React.Component {
             )
         })
 
-        let stripeLeft = this.state.photosContLeft / 3 * -1 + 'px'
+        let stripeLeft = this.state.photosContLeft / 3 * -1 + 'vw'
 
         const swipeOptions = {
             startSlide: 0,
@@ -353,7 +387,7 @@ export default class extends React.Component {
                     onTouchMove={this.touchMove.bind(this)}
                     onTouchEnd={this.touchEnd.bind(this)}
                     >
-                    <div className="carousel" ref="carousel" style={{transform: `translate3d(${this.state.photosContLeft}px, 0, 0)`, WebkitTransform: `translate3d(${this.state.photosContLeft}px, 0, 0)`}}>
+                    <div className="carousel" ref="carousel" style={{transform: `translate3d(${this.state.photosContLeft}vw, 0, 0)`, WebkitTransform: `translate3d(${this.state.photosContLeft}vw, 0, 0)`}}>
                         {photos}
                     </div>
                 </div>
@@ -373,9 +407,9 @@ export default class extends React.Component {
                     <div className="user-controls" ref="controls">
 
                         <button className="write-message" ref="message"><i className="icons envelope"  style={{transform: `scale(${this.state.buttonCSSProp0})`, WebkitTransform: `scale(${this.state.buttonCSSProp0})`}}></i></button>
-                        { this.props.gotRight ? (<button className="move-right" ref="right"><i className="icons heart" style={{transform: `scale(${this.state.buttonCSSProp1})`, WebkitTransform: `scale(${this.state.buttonCSSProp1})`}}></i></button>) : null}
+                        { this.props.gotRight ? (<button className="move-right" ref="right"><i className="icons right" style={{transform: `scale(${this.state.buttonCSSProp1})`, WebkitTransform: `scale(${this.state.buttonCSSProp1})`}}></i></button>) : null}
                         <button className="like-user" ref="like"><i className="icons heart" style={{transform: `scale(${this.state.buttonCSSProp2})`, WebkitTransform: `scale(${this.state.buttonCSSProp2})`}}></i></button>
-                        { this.props.gotLeft ? (<button className="move-left" ref="left"><i className="icons envelope" style={{transform: `scale(${this.state.buttonCSSProp3})`, WebkitTransform: `scale(${this.state.buttonCSSProp3})`}}></i></button>) : null}
+                        { this.props.gotLeft ? (<button className="move-left" ref="left"><i className="icons left" style={{transform: `scale(${this.state.buttonCSSProp3})`, WebkitTransform: `scale(${this.state.buttonCSSProp3})`}}></i></button>) : null}
                         <div className="glow"></div>
 
                     </div>

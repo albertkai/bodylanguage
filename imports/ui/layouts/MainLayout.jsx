@@ -5,6 +5,7 @@ import MessageForm from '../particles/MessageForm.jsx'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { createContainer } from 'meteor/react-meteor-data'
 import { saveGeoPosition } from '../../api/models/users/methods.js'
+import { Random } from 'meteor/random'
 
 export default class extends React.Component {
 
@@ -54,7 +55,7 @@ export default class extends React.Component {
                         transitionLeaveTimeout={1}
                         >
                         {this.props.children && React.cloneElement(this.props.children, {
-                            key: this.props.location.pathname,
+                            key: this.props.location.path,
                             store: this.props.store,
                             currentUser: this.props.currentUser,
                             isLoggingIn: this.props.isLoggingIn
@@ -65,7 +66,7 @@ export default class extends React.Component {
                     <button className="close close-menu"></button>
                     <button className="close close-filter"></button>
                 </div>
-                <RightFilter />
+                <RightFilter/>
                 <MessageForm />
             </div>
         )

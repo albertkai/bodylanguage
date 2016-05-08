@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { createContainer } from 'meteor/react-meteor-data'
 import i18n from 'meteor/universe:i18n'
 import {browserHistory} from 'react-router'
+import store from '../../api/client/stores/store.js'
 
 class AppLayout extends React.Component {
 
@@ -19,6 +20,14 @@ class AppLayout extends React.Component {
         console.log('AppContainer mounted')
         i18n.setLocale(this.getLang())
 
+    }
+
+    getChildContext() {
+        return {
+            currentUser: this.props.currentUser,
+            isLoggingIn: this.props.isLoggingIn,
+            store: this.props.store
+        }
     }
 
     componentWillMount() {
@@ -85,6 +94,14 @@ class AppLayout extends React.Component {
 
 }
 
+AppLayout.childContextTypes = {
+
+    currentUser: React.PropTypes.object,
+    isLoggingIn: React.PropTypes.bool,
+    store: React.PropTypes.object
+
+}
+
 export default createContainer(({params})=>{
 
     const currentUser = Meteor.user()
@@ -92,7 +109,8 @@ export default createContainer(({params})=>{
 
     return {
         currentUser,
-        isLoggingIn
+        isLoggingIn,
+        store
     }
 
 }, AppLayout)

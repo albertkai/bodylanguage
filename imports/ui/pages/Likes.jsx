@@ -13,22 +13,16 @@ class LikesPage extends React.Component{
         }
     }
 
-    isActive(filter) {
-        if (this.state.filter === filter) {
-            return '_active'
-        } else {
-            return ''
-        }
-    }
-
     setFilter(filter) {
+        console.log(filter)
+        this.props.filterr.set(filter + ' dsfgdfh')
         this.setState({filter: filter})
     }
 
     render() {
         const T = i18n.createComponent(i18n.createTranslator('app'))
         if (this.props.isReady) {
-            user = this.props.users[1]
+            user = this.props.users[0]
             const hereFor = Object.keys(user.settings.hereFor).filter((name)=> {
                 return user.settings.hereFor[name]
             })
@@ -46,9 +40,9 @@ class LikesPage extends React.Component{
                     </div>
                     <div className="filter">
                         <div className="button-group">
-                            <button className={this.isActive.bind(this, "both")} onClick={this.setFilter.bind(this, "both")}><T>likes.both</T></button>
-                            <button className={this.isActive.bind(this, "i")} onClick={this.setFilter.bind(this, "i")}><T>likes.iLiked</T></button>
-                            <button className={this.isActive.bind(this, "me")} onClick={this.setFilter.bind(this, "me")}><T>likes.likedMe</T></button>
+                            <button className={(this.state.filter === "both") ? "_active" : ""} onClick={this.setFilter.bind(this, "both")}><T>likes.both</T></button>
+                            <button className={(this.state.filter === "i") ? "_active" : ""} onClick={this.setFilter.bind(this, "i")}><T>likes.iLiked</T></button>
+                            <button className={(this.state.filter === "me") ? "_active" : ""} onClick={this.setFilter.bind(this, "me")}><T>likes.likedMe</T></button>
                         </div>
                     </div>
                 </div>
@@ -62,12 +56,18 @@ class LikesPage extends React.Component{
 
 export default createContainer(({params})=>{
 
+    const filterr = new ReactiveVar('gogo')
     const likesSub = Meteor.subscribe('likes.userLikes')
     const likes = Likes.find().fetch()
     const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
     const isReady = likesSub.ready()
 
-    return {likes, users, isReady}
+    Tracker.autorun(()=>{
+        let text = filterr.get()
+        console.log(text)
+    })
+
+    return {likes, users, isReady, filterr}
 
 
 }, LikesPage)

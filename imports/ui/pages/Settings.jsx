@@ -3,6 +3,7 @@ import PhotoEdit from '../components/PhotoEdit.jsx'
 import UserSettings from '../components/UserSettings.jsx'
 import i18n from 'meteor/universe:i18n'
 import { Meteor } from 'meteor/meteor'
+import { logout } from '../../api/actions/client/users.js'
 
 export default class extends React.Component {
 
@@ -11,7 +12,7 @@ export default class extends React.Component {
     }
 
     logout() {
-        Meteor.logout()
+        logout()
     }
 
     render() {

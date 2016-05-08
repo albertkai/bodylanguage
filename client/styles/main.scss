@@ -9,15 +9,6 @@
 @import "includes/_fonts";
 @import "includes/_base"; // Base HTML element styles
 
-body{
-
-  &::after{
-    content: "url(https://dcl7m3594apmn.cloudfront.net/images/EPdCpTjioFsdizDkd.jpg) url(https://dcl7m3594apmn.cloudfront.net/images/5BxEJ9H2upcyStRGz.jpg) url(https://dcl7m3594apmn.cloudfront.net/images/3fzBLKAk6KXpw6Fqo.jpg)";
-    display: none;
-  }
-
-}
-
 // Components. Actual components styles
 
 @import 'components/_global';
@@ -40,5 +31,5 @@ body{
 @import 'components/_messageForm';
 @import 'components/_messages';
 @import 'components/_login';
-
+@import 'components/_plugins';
 
