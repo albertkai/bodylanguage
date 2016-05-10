@@ -120,7 +120,6 @@ class ListUsers extends React.Component {
 export default createContainer(({params})=>{
 
     console.log(params)
-    console.log('paerrarar')
     const usersAround = Meteor.subscribe('users.around')
     const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
     const isReady = usersAround.ready()

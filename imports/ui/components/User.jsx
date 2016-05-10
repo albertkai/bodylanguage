@@ -232,7 +232,7 @@ export default class extends React.Component {
             if (x - (side / 2) < 0) {
                 return side + ((x - (side / 2)) * 2)
             } else if (x + (side / 2) > deviceWidth) {
-                return side - (x + (side / 2)) + deviceWidth
+                return side - (((side / 2) + x - deviceWidth) * 2)
             } else {
                 return side
             }

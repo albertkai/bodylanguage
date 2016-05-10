@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { getEdgeValues } from '../../api/misc/utils.js'
-import Likes from '../../api/models/likes/likes.js'
+import { getEdgeValues } from '../../misc/utils.js'
 
 if (Meteor.users.find().count() < 5) {
 
@@ -49,38 +48,6 @@ if (Meteor.users.find().count() < 5) {
         }
 
         Meteor.users.insert(user)
-
-    }
-
-}
-
-Likes.find().forEach(like => Likes.remove(like._id))
-
-if (Likes.find().count() === 0) {
-
-    const userId = "Bk52PTwXtxAtjHjw9"
-
-    for (let i=0; i < 12; i++) {
-
-        Likes.insert({
-            userId,
-            likedUser: Meteor.users.findOne({_id: {$ne: userId}})._id,
-            isMutual: true,
-            createdAt: Date.now(),
-            lastUpdated: Date.now()
-        })
-
-    }
-
-    for (let i=0; i < 8; i++) {
-
-        Likes.insert({
-            userId: Meteor.users.findOne({_id: {$ne: userId}})._id,
-            likedUser: userId,
-            isMutual: true,
-            createdAt: Date.now(),
-            lastUpdated: Date.now()
-        })
 
     }
 

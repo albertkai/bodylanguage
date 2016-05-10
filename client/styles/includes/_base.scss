@@ -3,7 +3,11 @@
 }
 
 body{
-  background: $gray-darker;
+  background-image: url(/images/registration_bg.jpg);
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 h1, h2, h3, h4, h5, h6, p, li, ol, div {

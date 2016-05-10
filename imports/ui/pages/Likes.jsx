@@ -1,8 +1,10 @@
 import React from 'react'
-import User from '../components/User.jsx'
-import i18n from 'meteor/universe:i18n'
 import { createContainer } from 'meteor/react-meteor-data'
+import User from '../components/User.jsx'
+import Loading from '../components/Loading.jsx'
 import Likes from '../../api/models/likes/likes.js'
+import { distance } from '../../api/misc/utils.js'
+import i18n from 'meteor/universe:i18n'
 
 class LikesPage extends React.Component{
 
@@ -14,18 +16,44 @@ class LikesPage extends React.Component{
     }
 
     setFilter(filter) {
-        console.log(filter)
-        this.props.filterr.set(filter + ' dsfgdfh')
         this.setState({filter: filter})
     }
 
     render() {
+
         const T = i18n.createComponent(i18n.createTranslator('app'))
         if (this.props.isReady) {
-            user = this.props.users[0]
+
+            const userId = this.props.currentUser._id
+            const likes = this.props.likes.sort(like => like.lastUpdated)
+            const user = this.props.users
+            const yourLikes = likes
+                .filter(like => like.userId === userId)
+                .map((like)=>{
+                    let user = users.find(user => user._id === like.likedUser)
+                    return Object.assign(like, {pics: user.pics, location: user.location})
+                })
+            const youLiked = likes
+                .filter(like => like.userId === userId)
+                .map((like)=>{
+                    let user = users.find(user => user._id === like.likedUser)
+                    return Object.assign(like, {pics: user.pics, location: user.location})
+                })
+            const mutualLikes = yourLikes
+                .filter(like => like.isMutual)
+                .map((like)=>{
+                    let user = users.find(user => user._id === like.likedUser)
+                    return Object.assign(like, {pics: user.pics, location: user.location})
+                })
             const hereFor = Object.keys(user.settings.hereFor).filter((name)=> {
                 return user.settings.hereFor[name]
             })
+            const userLat = user.location.lat
+            const userLng = user.location.lng
+            const myLat = this.props.currentUser.profile.location.lat
+            const myLng = this.props.currentUser.profile.location.lng
+            const dist = distance(userLat, userLng, myLat, myLng)
+
             return (
                 <div id="likes" className="container">
                     <div className="user-wrap">
@@ -36,6 +64,7 @@ class LikesPage extends React.Component{
                             gotLeft={true}
                             gotRight={true}
                             hereFor={hereFor}
+                            distance={dist.toFixed(1)}
                             />
                     </div>
                     <div className="filter">
@@ -54,20 +83,15 @@ class LikesPage extends React.Component{
 
 }
 
-export default createContainer(({params})=>{
+export default createContainer(()=>{
 
-    const filterr = new ReactiveVar('gogo')
-    const likesSub = Meteor.subscribe('likes.userLikes')
+    const filter = new ReactiveVar('all')
+    const likesSub = Meteor.subscribe('likes.allLikes')
     const likes = Likes.find().fetch()
     const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
     const isReady = likesSub.ready()
 
-    Tracker.autorun(()=>{
-        let text = filterr.get()
-        console.log(text)
-    })
-
-    return {likes, users, isReady, filterr}
+    return {likes, users, isReady, filter}
 
 
 }, LikesPage)

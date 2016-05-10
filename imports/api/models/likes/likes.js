@@ -21,6 +21,9 @@ Likes.schema = new SimpleSchema({
     },
     lastUpdated: {
         type: Number
+    },
+    pics: {
+        type: [String]
     }
 })
 
