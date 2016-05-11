@@ -17,10 +17,21 @@
         visibility: visible;
       }
     }
+
+    #left-menu{
+      >*{
+        @include translate(0, 0);
+      }
+    }
   }
 
   &._filter-opened{
     @include translate(-70vw, 0);
+    #right-filter{
+      >*{
+        @include translate(0, 0);
+      }
+    }
   }
 
   #left-menu{

@@ -1,5 +1,7 @@
 import React from 'react'
 import _ from 'underscore'
+import { openThread } from '../../api/actions/client/messages.js'
+import Thread from './Thread.jsx'
 
 function calculateDistance(elem, mouseX, mouseY) {
     return Math.floor(Math.sqrt(Math.pow(mouseX - (elem.offset().left+(elem.width()/2)), 2) + Math.pow(mouseY - (elem.offset().top+(elem.height()/2)), 2)));
@@ -336,7 +338,7 @@ export default class extends React.Component {
 
     message() {
         console.log('Send message')
-        this.props.openMessage()
+        openThread(this.props.userId)
     }
 
     left() {
@@ -416,6 +418,8 @@ export default class extends React.Component {
                     </div>
 
                 </div>
+
+                {this.props.threadId ? (<Thread threadId={this.props.threadId}/>) : null}
 
             </div>
         )

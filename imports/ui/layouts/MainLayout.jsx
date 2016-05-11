@@ -50,7 +50,7 @@ export default class extends React.Component {
                 <LeftMenu />
                 <div id="main" className="container">
                     <ReactCSSTransitionGroup
-                        transitionName="fade"
+                        transitionName="thread"
                         transitionEnterTimeout={0}
                         transitionLeaveTimeout={1}
                         >

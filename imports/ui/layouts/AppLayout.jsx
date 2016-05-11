@@ -77,7 +77,8 @@ class AppLayout extends React.Component {
             <div id="app-container" className="container">
                 {this.props.children && React.cloneElement(this.props.children, {
                     currentUser: this.props.currentUser,
-                    isLoggingIn: this.props.isLoggingIn
+                    isLoggingIn: this.props.isLoggingIn,
+                    store: this.props.store
                 })}
                 <div id="main-loader" className={loaderClass + ' center-content'}>
 

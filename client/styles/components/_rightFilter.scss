@@ -23,6 +23,11 @@
     background-position: center;
   }
 
+  >*{
+    @include transition(all .6s ease);
+    @include translate(-30vw, 0);
+  }
+
   h2, h3, .logo{
     position: relative;
     z-index: 2;

@@ -1,11 +1,18 @@
 import React from 'react'
 import truncate from 'truncate'
 import Loader3d from '../particles/Loader3d.jsx'
+import Thread from '../components/Thread.jsx'
+import { createContainer } from 'meteor/react-meteor-data'
+import { openThread } from '../../api/actions/client/messages.js'
 
 class MessagesFeed extends React.Component {
 
     constructor(props){
         super(props);
+    }
+
+    openThread(id) {
+        openThread(id)
     }
 
     render() {
@@ -18,7 +25,7 @@ class MessagesFeed extends React.Component {
                     <div>
                         <div className="avatar" style={{backgroundImage: image}}></div>
                     </div>
-                    <div>
+                    <div onClick={this.openThread(thread._id)}>
                         <h4><span>ВЫ</span>,<span>{date}</span></h4>
                         {thread.message.length > 0 ? (<p>"{truncate(thread.message, 70)}"</p>) : null}
                     </div>
@@ -36,7 +43,7 @@ class MessagesFeed extends React.Component {
 
 }
 
-export default class extends React.Component {
+class Messages extends React.Component {
 
     constructor(props){
         super(props);
@@ -48,6 +55,11 @@ export default class extends React.Component {
     setFilter(filter) {
         console.log(filter)
         this.setState({filter: filter})
+    }
+
+    openThread(id) {
+        console.log('open thread')
+        this.props.store.threadId.set(id)
     }
 
     render() {
@@ -79,45 +91,36 @@ export default class extends React.Component {
 
         return (
             <div id="messages" class="container">
-                <MessagesFeed threads={threads}/>
+                <MessagesFeed threads={threads} />
                 <div id="messages-filter">
                     <div className="button-group">
                         <button className={(this.state.filter === "all") ? "_active" : ""} onClick={this.setFilter.bind(this, "all")}>Все</button>
                         <button className={(this.state.filter === "unread") ? "_active" : ""} onClick={this.setFilter.bind(this, "unread")}>Новые</button>
                     </div>
                 </div>
-                <div className="thread-cont">
-                    <div className="thread">
-                        <div className="ovrl">
-                            <div></div>
-                        </div>
-                        <div className="light-ovrl"></div>
-                        <button className="close"><div></div><div></div></button>
-                        <div className="feed">
-                            <div className="message">
-                                <h3><div></div><span>Вы</span>,<span>вчера в 18:30</span></h3>
-                                <p>Привет киса, надеюсь ты еще не спишь, тк мне очень gjdjgkj dlfjgldjf gldjfl jdfhlj авырвыарывар</p>
-                            </div>
-                            <div className="message">
-                                <h3><div></div><span>Вы</span>,<span>вчера в 18:30</span></h3>
-                                <p>Привет киса, надеюсь ты еще не спишь, тк мне очень gjdjgkj dlfjgldjf gldjfl jdfhlj авырвыарывар рп врвап вра п воа воап воап вап оваоп оваоп воаоп вопо в</p>
-                            </div>
-                        </div>
-                        <div className="write-message">
-                            <input type="text"/>
-                            <button>Отправить</button>
-                        </div>
-                        <div className="user-is-writing">
-                            <div className="center-content">
-                                <Loader3d />
-                                <h3>Подождите</h3>
-                                <p>Пользователь пишет сообщение</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {this.props.threadId ? (<Thread threadId={this.props.threadId} />) : null}
             </div>
         )
     }
 
 }
+
+Messages.contextTypes = {
+    store: React.PropTypes.object
+}
+
+MessagesFeed.contextTypes = {
+    store: React.PropTypes.object
+}
+
+export default createContainer((props)=>{
+
+    console.log('params')
+    console.log(props)
+    const threadId = props.store.threadId.get()
+    return {
+        threadId,
+        store: props.store
+    }
+
+}, Messages)

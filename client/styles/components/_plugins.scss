@@ -474,8 +474,8 @@
 
 //  Loader 3d
 
-$itemSize : 20;
-$itemSpacing : 10;
+$itemSize : 3;
+$itemSpacing : 7;
 $squareSize : 40;
 $loaderColor : rgba(white, 1);
 $loaderDelay : 100;
@@ -485,9 +485,10 @@ $animationTiming: cubic-bezier(.645, .045, .355, 1);
 .loader {
   display: block;
   overflow: hidden;
-  margin-bottom: 15%;
+  margin-bottom: 0;
   font-size: 0;
   text-align: center;
+  padding: 0 5vw;
 }
 .loader--3d {
   transform-style: preserve-3d;
@@ -501,7 +502,7 @@ $animationTiming: cubic-bezier(.645, .045, .355, 1);
   display: inline-block;
   //border-radius: 50%;
   width: $itemSize + px;
-  height: $itemSize + px;
+  height: 28 + px;
   margin: $itemSpacing + px;
   background-color: $loaderColor;
   color: $loaderColor;
@@ -532,7 +533,7 @@ $animationTiming: cubic-bezier(.645, .045, .355, 1);
   }
   .loader--slowFlip &,
   .loader--flipHoz & {
-    @for $i from 1 through 6 {
+    @for $i from 1 through 9 {
       &:nth-child(#{$i}) {
         animation-delay: ($i * $loaderDelay*1.5) + ms;
       }

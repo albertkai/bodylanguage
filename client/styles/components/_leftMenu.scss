@@ -24,6 +24,11 @@
     background-position: center;
   }
 
+  >*{
+    @include transition(all .6s ease);
+    @include translate(30vw, 0);
+  }
+
   .logo{
 
     width: 30vw;
@@ -35,6 +40,7 @@
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+
 
   }
 

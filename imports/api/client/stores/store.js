@@ -6,6 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 export default {
 
     dict: new ReactiveDict(),    // Common use
-    isDark: new ReactiveVar(true)  // To determine weather the background is dark, in order to change some ui elements styles
+    isDark: new ReactiveVar(true),  // To determine weather the background is dark, in order to change some ui elements styles
+    threadId: new ReactiveVar(null) // Used to open thread modal with a set id
 
 }

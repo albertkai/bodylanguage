@@ -103,6 +103,7 @@ class ListUsers extends React.Component {
                                 move={this.changeUser.bind(this)}
                                 likeUser={this.likeUser.bind(this)}
                                 openMessage={this.openMessage.bind(this)}
+                                threadId={this.props.threadId}
                                 />
                         </ReactCSSTransitionGroup>
                     </div>
@@ -117,15 +118,17 @@ class ListUsers extends React.Component {
 
 }
 
-export default createContainer(({params})=>{
+export default createContainer(({params, store})=>{
 
     console.log(params)
     const usersAround = Meteor.subscribe('users.around')
     const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
     const isReady = usersAround.ready()
+    const threadId = store.threadId.get()
     return {
         users,
-        isReady
+        isReady,
+        threadId
     }
 
 }, ListUsers)

@@ -9,6 +9,7 @@ export default Loader3d = ()=>{
             <span className="loader-item">4</span>
             <span className="loader-item">5</span>
             <span className="loader-item">6</span>
+            <span className="loader-item">6</span>
         </div>
     )
 }
