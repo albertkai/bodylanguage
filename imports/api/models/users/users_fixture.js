@@ -1,6 +1,12 @@
 import { Meteor } from 'meteor/meteor'
 import { getEdgeValues } from '../../misc/utils.js'
 
+Meteor.users.find().forEach((u)=>{
+    if (u.settings) {
+        Meteor.users.remove(u._id)
+    }
+})
+
 if (Meteor.users.find().count() < 5) {
 
     for (let i=0; i < 20; i++) {
@@ -10,40 +16,42 @@ if (Meteor.users.find().count() < 5) {
         let pos = getEdgeValues(44.5971924, 33.4363733, distance)
 
         let user = {
-            registration: {
-                isRegistered: true,
-                step: 'step2'
-            },
-            settings: {
-                iam: 'male',
-                interested: 'female',
-                hereFor: {
-                    sex: true,
-                    relationships: true,
-                    communication: false,
-                    watchup: true
+            profile: {
+                registration: {
+                    isRegistered: true,
+                    step: 'step2'
                 },
-                radius: 50000
-            },
-            pics: [
-                {
-                    name: '3fzBLKAk6KXpw6Fqo.jpg',
-                    order: 1
-                },{
-                    name: '5BxEJ9H2upcyStRGz.jpg',
-                    order: 2
-                },{
-                    name: 'EPdCpTjioFsdizDkd.jpg',
-                    order: 3
+                settings: {
+                    iam: 'male',
+                    interested: 'female',
+                    hereFor: {
+                        sex: true,
+                        relationships: true,
+                        communication: false,
+                        watchup: true
+                    },
+                    radius: 50000
+                },
+                pics: [
+                    {
+                        name: '3fzBLKAk6KXpw6Fqo.jpg',
+                        order: 1
+                    },{
+                        name: '5BxEJ9H2upcyStRGz.jpg',
+                        order: 2
+                    },{
+                        name: 'EPdCpTjioFsdizDkd.jpg',
+                        order: 3
+                    }
+                ],
+                location: {
+                    lat: pos.latRange.max,
+                    lng: pos.lngRange.max
+                },
+                counts: {
+                    messages: 0,
+                    likes: 0
                 }
-            ],
-            location: {
-                lat: pos.latRange.max,
-                lng: pos.lngRange.max
-            },
-            counts: {
-                messages: 0,
-                likes: 0
             }
         }
 

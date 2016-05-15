@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { browserHistory } from 'react-router'
 import { sendVerificationLink } from '../../methods/methods.js'
-import { regMove, stepOneSave, regFinish, likeUserMethod, updateSettingsFieldMethod } from '../../models/users/methods.js'
+import { regMove, stepOneSave, regFinish, updateSettingsFieldMethod } from '../../models/users/methods.js'
 
 export const registerUser = (email, password)=> {
 
@@ -85,19 +85,6 @@ export const logout = ()=> {
     Meteor.logout((err)=>{
         if (err) console.log(err) 
         else browserHistory.push('/login')
-    })
-
-}
-
-
-export const likeUser = (id)=> {
-
-    likeUserMethod.call({id}, (err)=> {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log('User liked')
-        }
     })
 
 }

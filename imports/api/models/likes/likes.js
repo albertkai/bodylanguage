@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
@@ -17,13 +18,35 @@ Likes.schema = new SimpleSchema({
         defaultValue: false
     },
     createdAt: {
-        type: Number
-    },
+        type: Number,
+        autoValue() {
+            return Date.now()
+        }
+    }
+    ,
     lastUpdated: {
-        type: Number
+        type: Number,
+        autoValue() {
+            return Date.now()
+        }
+    }
+})
+
+Likes.helpers({
+    otherUserId() {
+        return this.userId === Meteor.userId() ? this.likedUser : this.userId
     },
-    pics: {
-        type: [String]
+    userPics() {
+        const userId = this.userId === Meteor.userId() ? this.likedUser : this.userId
+        return Meteor.users.findOne(userId).profile.pics
+    },
+    location() {
+        const userId = this.userId === Meteor.userId() ? this.likedUser : this.userId
+        return Meteor.users.findOne(userId).profile.location
+    },
+    hereFor() {
+        const userId = this.userId === Meteor.userId() ? this.likedUser : this.userId
+        return Meteor.users.findOne(userId).profile.settings.hereFor
     }
 })
 

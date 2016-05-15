@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import _ from 'underscore'
 import { openThread } from '../../api/actions/client/messages.js'
 import Thread from './Thread.jsx'
@@ -285,10 +286,12 @@ export default class extends React.Component {
             ]
             elements.forEach((element, index)=>{
 
-                let distance = calculateDistance(element.$node, x, y)
-                let prop = Math.log(1000 / distance).toFixed(2)
-                if (prop > 5) prop = 5
-                this.setState({['buttonCSSProp' + index]: prop})
+                if (element.$node.length > 0) {
+                    let distance = calculateDistance(element.$node, x, y)
+                    let prop = Math.log(1000 / distance).toFixed(2)
+                    if (prop > 5) prop = 5
+                    this.setState({['buttonCSSProp' + index]: prop})
+                }
 
             })
         }
@@ -332,23 +335,31 @@ export default class extends React.Component {
     }
 
     like(id) {
-        console.log('Set like')
-        this.props.likeUser(id)
+        if (this.props.canLike) {
+            console.log('Set like')
+            this.props.likeUser(id)
+        }
     }
 
     message() {
-        console.log('Send message')
-        openThread(this.props.userId)
+        if (this.props.canWrite) {
+            console.log('Send message')
+            openThread({userId: this.props.userId})
+        }
     }
 
     left() {
-        console.log('left')
-        this.props.move('left')
+        if (this.props.gotLeft) {
+            console.log('left')
+            this.props.move('left')
+        }
     }
 
     right(){
-        console.log('right')
-        this.props.move('right')
+        if (this.props.gotRight) {
+            console.log('right')
+            this.props.move('right')
+        }
     }
 
     openMessages() {
@@ -409,20 +420,26 @@ export default class extends React.Component {
 
                     <div className="user-controls" ref="controls">
 
-                        <button className="like-user" ref="like"><i className="icons heart"  style={{transform: `scale(${this.state.buttonCSSProp0})`, WebkitTransform: `scale(${this.state.buttonCSSProp0})`}}></i></button>
-                        { this.props.gotRight ? (<button className="move-right" ref="right"><i className="icons right" style={{transform: `scale(${this.state.buttonCSSProp1})`, WebkitTransform: `scale(${this.state.buttonCSSProp1})`}}></i></button>) : null}
-                        <button className="write-message" ref="message"><i className="icons envelope" style={{transform: `scale(${this.state.buttonCSSProp2})`, WebkitTransform: `scale(${this.state.buttonCSSProp2})`}}></i></button>
-                        { this.props.gotLeft ? (<button className="move-left" ref="left"><i className="icons left" style={{transform: `scale(${this.state.buttonCSSProp3})`, WebkitTransform: `scale(${this.state.buttonCSSProp3})`}}></i></button>) : null}
+                        { this.props.canLike ? (<button className="like-user" ref="like"><i className="icons heart"  style={{transform: `scale(${this.state.buttonCSSProp0})`, WebkitTransform: `scale(${this.state.buttonCSSProp0})`}}></i></button>) : null }
+                        { this.props.gotRight ? (<button className="move-right" ref="right"><i className="icons right" style={{transform: `scale(${this.state.buttonCSSProp1})`, WebkitTransform: `scale(${this.state.buttonCSSProp1})`}}></i></button>) : null }
+                        { this.props.canWrite ? (<button className="write-message" ref="message"><i className="icons envelope" style={{transform: `scale(${this.state.buttonCSSProp2})`, WebkitTransform: `scale(${this.state.buttonCSSProp2})`}}></i></button>) : null }
+                        { this.props.gotLeft ? (<button className="move-left" ref="left"><i className="icons left" style={{transform: `scale(${this.state.buttonCSSProp3})`, WebkitTransform: `scale(${this.state.buttonCSSProp3})`}}></i></button>) : null }
                         <div className="glow"></div>
 
                     </div>
 
                 </div>
 
-                {this.props.threadId ? (<Thread threadId={this.props.threadId}/>) : null}
-
+                <ReactCSSTransitionGroup
+                    transitionName="thread"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}
+                    >
+                    {this.props.threadId ? (<Thread threadId={this.props.threadId} key={this.props.threadId}/>) : null}
+                </ReactCSSTransitionGroup>
             </div>
         )
+
     }
 
 }

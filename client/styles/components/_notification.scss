@@ -1,0 +1,38 @@
+.notification{
+
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  padding: 7vh 2vh 5vh 2vh;
+  box-sizing: border-box;
+  background: rgba($accent-color, .8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+  color: white;
+  text-align: center;
+  @include transition(all .4s ease);
+  @include translate(0, -100%);
+
+  &._visible{
+    @include translate(0, 0);
+  }
+
+  &.notification-error{
+    background: rgba(red, .8);
+  }
+
+  h3{
+    text-align: center;
+    color: white;
+    margin: 0;
+    margin-bottom: 2vh;
+  }
+
+  p{
+    text-align: center;
+    color: white;
+    font-weight: 100;
+    letter-spacing: .3em;
+    margin: 0;
+  }
+
+}

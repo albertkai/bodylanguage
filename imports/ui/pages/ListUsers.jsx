@@ -6,7 +6,10 @@ import { Meteor } from 'meteor/meteor'
 import { createContainer } from 'meteor/react-meteor-data'
 import { distance, imagesCSSPreload } from '../../api/misc/utils.js'
 import { expandRadius } from '../../api/models/users/methods.js'
-import { likeUser, openMessage } from '../../api/actions/client/users.js'
+import Likes from '../../api/models/likes/likes.js'
+import { likeUser } from '../../api/actions/client/likes.js'
+import { openMessage } from '../../api/actions/client/users.js'
+import createjs from '../../api/client/plugins/preload.js'
 
 class ListUsers extends React.Component {
 
@@ -16,6 +19,13 @@ class ListUsers extends React.Component {
             currentUser: 0
         }
         this.edge = 0
+        //console.log(createjs)
+        //const queue = new createjs.LoadQueue({crossOrigin: 'Anonymous'})
+        //queue.loadFile({src: 'https://dcl7m3594apmn.cloudfront.net/images/A69FQL4HTxQxjvXyY.jpg', crossOrigin: 'Anonymous'})
+        //queue.on('progress', (loaded)=>{
+        //    console.log(loaded)
+        //})
+        //queue.on("complete", ()=> console.log('completed'), this);
     }
 
     componentWillMount() {
@@ -73,16 +83,16 @@ class ListUsers extends React.Component {
 
     render() {
         if (this.props.isReady) {
-            console.log(this.props.users[this.state.currentUser + 1])
-            const user = this.props.users[this.state.currentUser + 1]
-            if (user !== undefined && user !== null) {
-                const userLat = user.location.lat
-                const userLng = user.location.lng
+            if (this.props.users.length > 0) {
+                const user = this.props.users[this.state.currentUser]
+                const userLat = user.profile.location.lat
+                const userLng = user.profile.location.lng
                 const myLat = this.props.currentUser.profile.location.lat
                 const myLng = this.props.currentUser.profile.location.lng
                 const dist = distance(userLat, userLng, myLat, myLng)
-                const hereFor = Object.keys(user.settings.hereFor).filter((name)=> {
-                    return user.settings.hereFor[name]
+                const gotLeft = this.state.currentUser > 0
+                const hereFor = Object.keys(user.profile.settings.hereFor).filter((name)=> {
+                    return user.profile.settings.hereFor[name]
                 })
                 return (
                     <div id="user-page">
@@ -95,9 +105,11 @@ class ListUsers extends React.Component {
                             <User
                                 key={user._id}
                                 userId={user._id}
-                                photos={user.pics}
-                                gotLeft={true}
+                                photos={user.profile.pics}
+                                gotLeft={gotLeft}
                                 gotRight={true}
+                                canLike={user.canLike}
+                                canWrite={user.canWrite}
                                 hereFor={hereFor}
                                 distance={dist.toFixed(1)}
                                 move={this.changeUser.bind(this)}
@@ -109,7 +121,7 @@ class ListUsers extends React.Component {
                     </div>
                 )
             } else {
-                return (<Loading heading={'Никого нет'} text={'Загружаем данные'}/>)
+                return (<Loading heading={'Никого нет'} text={'Увеличиваем радиус поиска'}/>)
             }
         } else {
             return (<Loading heading={'Подождите'} text={'Загружаем данные'}/>)
@@ -123,6 +135,18 @@ export default createContainer(({params, store})=>{
     console.log(params)
     const usersAround = Meteor.subscribe('users.around')
     const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
+    const likes = Likes.find()
+    users.map((u)=>{
+        const canLike = !Likes.findOne({userId: Meteor.userId(), likedUser: u._id})
+        const canWrite = (()=>{
+            const like = Likes.findOne({userId: Meteor.userId(), likedUser: u._id})
+            return !!like && like.isMutual
+        })()
+        u.canLike = canLike
+        u.canWrite = canWrite
+        return u
+    })
+    console.log(users)
     const isReady = usersAround.ready()
     const threadId = store.threadId.get()
     return {

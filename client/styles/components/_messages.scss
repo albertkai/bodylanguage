@@ -71,6 +71,36 @@
 
   }
 
+  .no-messages {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(/images/registration_bg.jpg);
+    top: 0;
+    left: 0;
+    text-align: center;
+    i{
+      position: relative;
+      left: -3px;
+      font-size: 28vw;
+      text-align: center;
+      color: white;
+    }
+    h3{
+      text-align: center;
+    }
+    p{
+      line-height: 1.3;
+      font-weight: 100;
+      letter-spacing: .1em;
+      font-size: 2.2vh;
+      text-align: center;
+    }
+    >div{
+      width: 80vw;
+    }
+  }
+
   #messages-filter{
     height: 10vh;
     .button-group{

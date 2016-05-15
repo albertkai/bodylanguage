@@ -41,12 +41,6 @@ export default class extends React.Component{
         this.formOpened = false
     }
 
-    componentWillMount() {
-        i18n.onChangeLocale((newLocale)=>{
-            this.forceUpdate()
-        })
-    }
-
     buttonClick(type) {
         let className;
         if (this.formOpened) {

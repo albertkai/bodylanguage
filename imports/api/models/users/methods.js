@@ -54,14 +54,6 @@ export const expandRadius = new ValidatedMethod({
     }
 })
 
-export const likeUserMethod = new ValidatedMethod({
-    name: 'users.likeUser',
-    validate: null,
-    run({id}) {
-        console.log('Like user with id: ' + id)
-    }
-})
-
 export const updateSettingsFieldMethod = new ValidatedMethod({
     name: 'users.updateSettingsField',
     validate: null,

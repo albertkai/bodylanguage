@@ -10,15 +10,11 @@ Meteor.publishComposite('likes.allLikes', {
         find: function(like){
             const isLiked = like.likedUser === this.userId
             const userId = isLiked ? like.userId : like.likedUser
-            const cursor = Meteor.users.find(userId)
-            return cursor
+            return Meteor.users.find({_id: userId}, {fields: {
+                'profile.pics': 1,
+                'profile.location': 1,
+                'profile.settings.hereFor': 1
+            }})
         }
     }]
 })
-
-//Meteor.publish('likes.allLikes', function(){
-//    const userId = this.userId
-//    //return Likes.find({$or: [{userId}, {likedUser: userId}]})
-//    //return Likes.find({likedUser: userId})
-//    return Likes.find()
-//})

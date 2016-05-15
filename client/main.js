@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import { renderRoutes } from '../imports/startup/client/routes.jsx';
+import moment from 'moment'
 import '../imports/startup/client/index.js'
 import '../imports/startup/both/slingshot.js'
 

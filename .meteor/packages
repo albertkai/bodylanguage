@@ -34,3 +34,5 @@ reywood:publish-composite
 reactive-var
 yuukan:streamy
 raix:push
+matb33:collection-hooks
+dburles:collection-helpers

@@ -47,7 +47,7 @@ export default class extends React.Component {
     render() {
         return (
             <div id="main-container" ref="mainContainer" className="container">
-                <LeftMenu />
+                <LeftMenu currentUser={this.props.currentUser}/>
                 <div id="main" className="container">
                     <ReactCSSTransitionGroup
                         transitionName="thread"

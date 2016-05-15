@@ -5,6 +5,8 @@ import i18n from 'meteor/universe:i18n'
 import {browserHistory} from 'react-router'
 import store from '../../api/client/stores/store.js'
 import Spinner3d from '../particles/Spinner3d.jsx'
+import Notification from '../particles/Notification.jsx'
+import UploadIndicator from '../particles/UploadIndicatior.jsx'
 
 class AppLayout extends React.Component {
 
@@ -85,6 +87,15 @@ class AppLayout extends React.Component {
                     <Spinner3d />
 
                 </div>
+                {
+                    this.props.notification ?
+                        (<Notification
+                            header={this.props.notification.header}
+                            text={this.props.notification.text}
+                            type={this.props.notification.type}/>)
+                        : null
+                }
+                <UploadIndicator />
             </div>
         )
     }
@@ -103,11 +114,13 @@ export default createContainer(({params})=>{
 
     const currentUser = Meteor.user()
     const isLoggingIn = Meteor.loggingIn()
+    const notification = store.notification.get()
 
     return {
         currentUser,
         isLoggingIn,
-        store
+        store,
+        notification
     }
 
 }, AppLayout)

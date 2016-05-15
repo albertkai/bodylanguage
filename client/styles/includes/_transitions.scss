@@ -79,3 +79,44 @@
   animation: moveToRight .6s ease-in both;
 
 }
+
+
+.thread-enter {
+  background: rgba(black, 0);
+  .thread{
+    @include translate(0, 100%);
+    .close{
+      @include translate(0, 50vh);
+    }
+  }
+}
+
+.thread-enter.thread-enter-active {
+  background: rgba(black, .3);
+  .thread {
+    @include translate(0, 0);
+    .close {
+      @include translate(0, 0);
+    }
+  }
+}
+
+.thread-leave{
+  background: rgba(black, .3);
+  .thread{
+    @include translate(0, 0);
+    .close{
+      @include translate(0, 0);
+    }
+  }
+}
+
+.thread-leave.thread-leave-active {
+  background: rgba(black, 0);
+  .thread{
+    @include translate(0, 100%);
+    .close{
+      @include translate(0, 50vh);
+    }
+  }
+}
